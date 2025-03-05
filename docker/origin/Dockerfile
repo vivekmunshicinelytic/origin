@@ -8,6 +8,12 @@ ARG ALPINEVERSION
 ARG REPO=https://beta.apk.unified-streaming.com/alpine/
 ARG VERSION=1.15.1
 
+# Install gcloud CLI and other necessary tools
+RUN apk add --no-cache \
+    curl \
+    bash \
+    google-cloud-sdk
+
 # Get USP public key
 RUN wget -q -O /etc/apk/keys/alpine@unified-streaming.com.rsa.pub \
     https://stable.apk.unified-streaming.com/alpine@unified-streaming.com.rsa.pub
