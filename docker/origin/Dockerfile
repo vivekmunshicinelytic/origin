@@ -1,5 +1,21 @@
 ARG ALPINEVERSION=3.19
 
+# Install necessary dependencies
+RUN apk add --no-cache \
+    curl \
+    bash \
+    python3 \
+    py3-pip \
+    ca-certificates
+# Download and install Google Cloud SDK
+RUN curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-458.0.1-linux-x86_64.tar.gz \
+    $$ tar -xzf google-cloud-sdk-458.0.1-linux-x86_64.tar.gz \
+    && ./google-cloud-sdk/install.sh -q \
+    && rm google-cloud-sdk-458.0.1-linux-x86_64.tar.gz
+
+#Add gcloud to PATH
+ENV PATH $PATH:/google-cloud-sdk/bin
+
 FROM alpine:$ALPINEVERSION
 
 # ARGs declared before FROM are in a different scope, so need to be stated again
