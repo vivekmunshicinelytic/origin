@@ -1,5 +1,7 @@
 ARG ALPINEVERSION=3.19
 
+FROM alpine:$ALPINEVERSION
+
 # Install necessary dependencies
 RUN apk add --no-cache \
     curl \
@@ -16,7 +18,6 @@ RUN curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cl
 #Add gcloud to PATH
 ENV PATH $PATH:/google-cloud-sdk/bin
 
-FROM alpine:$ALPINEVERSION
 
 # ARGs declared before FROM are in a different scope, so need to be stated again
 # https://docs.docker.com/engine/reference/builder/#understand-how-arg-and-from-interact
