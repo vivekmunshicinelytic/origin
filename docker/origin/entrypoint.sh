@@ -1,9 +1,6 @@
 #!/bin/sh
 set -e
 
-# Initialise gcloud configuration if needed
-gcloud config set project rightstrade
-
 # Validate license key variable is set
 if [ -z "$UspLicenseKey" ] && [ -z "$USP_LICENSE_KEY" ]
   then
@@ -59,12 +56,12 @@ if [ "$REST_API_PORT" ]
   export EXTRA_OPTIONS="$EXTRA_OPTIONS -D REST_API_PORT"
 fi
 
-# Change 'Listen 80' to 'Listen 0.0.0.0:80' to avoid some strange issues when IPv6 is available
-/bin/sed -i "s@Listen 80@Listen 0.0.0.0:80@g" /etc/apache2/httpd.conf
+# Change 'Listen 80' to 'Listen 0.0.0.0:8080' for Cloud Run
+/bin/sed -i "s@Listen 80@Listen 0.0.0.0:8080@g" /etc/apache2/httpd.conf
 
 rm -f /run/apache2/httpd.pid
 
-# First arg is `-f` or `--some-option`
+# First arg is -f or --some-option
 if [ "${1#-}" != "$1" ]; then
   set -- httpd $EXTRA_OPTIONS "$@"
 fi
