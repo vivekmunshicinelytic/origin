@@ -9,27 +9,20 @@ RUN apk add --no-cache \
     python3 \
     py3-pip \
     ca-certificates
+
 # Download and install Google Cloud SDK
 RUN curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-458.0.1-linux-x86_64.tar.gz \
-    $$ tar -xzf google-cloud-sdk-458.0.1-linux-x86_64.tar.gz \
+    && tar -xzf google-cloud-sdk-458.0.1-linux-x86_64.tar.gz \
     && ./google-cloud-sdk/install.sh -q \
     && rm google-cloud-sdk-458.0.1-linux-x86_64.tar.gz
 
-#Add gcloud to PATH
+# Add gcloud to PATH
 ENV PATH $PATH:/google-cloud-sdk/bin
 
-
 # ARGs declared before FROM are in a different scope, so need to be stated again
-# https://docs.docker.com/engine/reference/builder/#understand-how-arg-and-from-interact
 ARG ALPINEVERSION
 ARG REPO=https://beta.apk.unified-streaming.com/alpine/
 ARG VERSION=1.15.1
-
-# Install gcloud CLI and other necessary tools
-# RUN apk add --no-cache \
-#    curl \
-#    bash \
-#    google-cloud-sdk
 
 # Get USP public key
 RUN wget -q -O /etc/apk/keys/alpine@unified-streaming.com.rsa.pub \
@@ -82,7 +75,8 @@ COPY ffmpeg-transcoders.usp /etc/ffmpeg-transcoders.usp
 # set Apache as owner of /var/www/unified-origin so it can write from API
 RUN chown apache:apache /var/www/unified-origin
 
-EXPOSE 80
+# Use port 8080 for Cloud Run
+EXPOSE 8080
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 
