@@ -1,6 +1,9 @@
 #!/bin/sh
 set -e
 
+# Initialise gcloud configuration if needed
+gcloud config set project rightstrade
+
 # Validate license key variable is set
 if [ -z "$UspLicenseKey" ] && [ -z "$USP_LICENSE_KEY" ]
   then
