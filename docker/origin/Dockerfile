@@ -22,7 +22,7 @@ ENV PATH $PATH:/google-cloud-sdk/bin
 # ARGs declared before FROM are in a different scope, so need to be stated again
 ARG ALPINEVERSION
 ARG REPO=https://beta.apk.unified-streaming.com/alpine/
-ARG VERSION=1.15.1
+ARG VERSION=1.15.5
 
 # Get USP public key
 RUN wget -q -O /etc/apk/keys/alpine@unified-streaming.com.rsa.pub \
